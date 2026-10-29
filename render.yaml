@@ -1,0 +1,47 @@
+databases:
+  - name: wana-crythanxiev30-db
+    plan: free
+    postgresMajorVersion: 16
+
+services:
+  - type: web
+    name: wana-crythanxiev30-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start:api
+    healthCheckPath: /health
+    envVars:
+      - key: BOT_PREFIX
+        value: "."
+      - key: BOT_NAME
+        value: "WANNA-CRY THANXIEE"
+      - key: BOT_VERSION
+        value: "30.1.0"
+      - key: OWNER_NAME
+        value: "THANXIEE DEV"
+      - key: CHANNEL_LINK
+        value: "https://whatsapp.com/channel/0029VbE9KJvJkK73C7RNvP2z"
+      - key: GITHUB_REPO
+        value: "https://github.com/mrzeroexploitzw/wana-crythanxiev30"
+      - key: BOT_MODE
+        value: "public"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MODERATION_ACTION
+        value: "kick"
+      - key: STATS_INTERVAL_DAYS
+        value: "2"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wana-crythanxiev30-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DASHBOARD_ORIGIN
+        value: "https://your-dashboard.vercel.app"
+    # NOTE: this service now runs server/index.js — a multi-tenant API +
+    # session manager that each dashboard user pairs their own WhatsApp
+    # number through. src/index.js (the original single-number bot) is
+    # still in the repo and can be run standalone with `npm start` if you
+    # ever want a single self-hosted bot without the dashboard.
